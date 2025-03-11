@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="audio-manager.js"></script>
+    <title>Perspectives of Tia</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(270deg, #a8e6cf, #b2dfdb, #80cbc4, #4db6ac);
+            background-size: 400% 400%;
+            color: #000000;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            animation: backgroundSlide 10s infinite linear;
+        }
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            margin-top: 50px;
+            font-size: 3.5em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #000000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out, glow 3s infinite alternate, float 3s ease-in-out infinite 2s; 
+            font-family: 'Georgia', serif; 
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 2px 2px 8px rgba(0, 77, 64, 0.3); }
+            100% { text-shadow: 2px 2px 12px rgba(64, 224, 208, 0.6); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-10px); } 
+        }
+
+        .cube-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 75vh;
+            perspective: 1500px;
+            margin-top: -50px; 
+        }
+
+        .cube {
+            width: 450px;
+            height: 450px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-in-out;
+        }
+
+        .cube-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            animation-fill-mode: forwards; 
+        }
+
+        .cube:hover .cube-inner {
+            transform: scale(1.1); 
+        }
+
+        .face {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            backface-visibility: hidden;
+            border: 5px solid rgba(0, 77, 64, 0.8);
+            background: white; 
+        }
+
+        .cube:hover .face {
+            border-color: rgba(64, 224, 208, 0.8); 
+        }
+
+       
+        .face .queen-icon {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 40px;
+            color: rgba(0, 77, 64, 0.8); 
+            position: absolute;
+        }
+
+        .face .queen-icon.top-right {
+            top: 20px;
+            right: 10px;
+        }
+
+        .face .queen-icon.bottom-left {
+            bottom: 20px;
+            left: 10px;
+        }
+
+       
+        .face .queen-indicator {
+            font-family: 'Georgia', serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: rgba(0, 77, 64, 0.8); 
+            position: absolute;
+        }
+
+        .face .queen-indicator.top-right {
+            top: 70px; 
+            right: 20px;
+        }
+
+        .face .queen-indicator.bottom-left {
+            bottom: 70px; 
+            left: 20px;
+        }
+
+        .front  { transform: translateZ(225px); }
+        .back   { transform: rotateY(180deg) translateZ(225px); }
+        .left   { transform: rotateY(-90deg) translateZ(225px); }
+        .right  { transform: rotateY(90deg) translateZ(225px); }
+        .top    { transform: rotateX(90deg) translateZ(225px); }
+        .bottom { transform: rotateX(-90deg) translateZ(225px); }
+
+        /* Zoom-in animation */
+        @keyframes zoomIn {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: linear-gradient(270deg, #26a69a, #26a69a, #4db6ac);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #004D40, #40E0D0);
+            transform: scale(1.1);
+        }
+
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            text-align: left;
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .instructions h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #004D40;
+        }
+
+        .instructions p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: #26a69a;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            text-align: left;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .popup h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #004D40;
+        }
+
+        .popup p {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .popup strong {
+            color: #26a69a;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tia's Dimensions: A Tapestry of Perspectives</h1>
+    <div class="cube-container">
+        <div class="cube" id="cube">
+            <div class="cube-inner">
+                <div class="face front" onclick="zoomIntoFace(this, 'artist.html')">
+                    The </br> Artist
+                    <div class="queen-icon top-right"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator top-right">Q</div>
+                    <div class="queen-icon bottom-left"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator bottom-left">Q</div>
+                </div>
+                <div class="face back" onclick="zoomIntoFace(this, 'servant.html')">
+                    The </br> Servant
+                    <div class="queen-icon top-right"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator top-right">Q</div>
+                    <div class="queen-icon bottom-left"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator bottom-left">Q</div>
+                </div>
+                <div class="face right" onclick="zoomIntoFace(this, 'adventurer.html')">
+                    The </br>Adventurer
+                    <div class="queen-icon top-right"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator top-right">Q</div>
+                    <div class="queen-icon bottom-left"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator bottom-left">Q</div>
+                </div>
+                <div class="face left" onclick="zoomIntoFace(this, 'friend.html')">
+                    The </br>Confidant
+                    <div class="queen-icon top-right"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator top-right">Q</div>
+                    <div class="queen-icon bottom-left"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator bottom-left">Q</div>
+                </div>
+                <div class="face top" onclick="zoomIntoFace(this, 'family.html')">
+                    The </br>Family</br>Glue
+                    <div class="queen-icon top-right"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator top-right">Q</div>
+                    <div class="queen-icon bottom-left"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator bottom-left">Q</div>
+                </div>
+                <div class="face bottom" onclick="zoomIntoFace(this, 'baby.html')">
+                    The </br>The Kiddos’ </br>Favorite
+                    <div class="queen-icon top-right"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator top-right">Q</div>
+                    <div class="queen-icon bottom-left"><i class="fas fa-chess-queen"></i></div>
+                    <div class="queen-indicator bottom-left">Q</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="button" onclick="nextPerspective()">Next Perspective</button>
+    <button class="button" onclick="showPopup()">How to Navigate</button>
+
+    <div class="popup" id="popup">
+        <h2>How to Explore Tia's Perspectives</h2>
+        <p>
+            Welcome to Tia's world!
+        </p>
+        <ol>
+            <li><strong>Hover</strong> over a face.</li>
+            <li><strong>Click</strong> to enter the perspective and explore it.</li>
+            <li>Use <strong>"Next Perspective"</strong>.</li>
+        </ol>
+        <button onclick="hidePopup()">Close</button>
+    </div>
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <script>
+        let currentFace = -1;
+        const cube = document.getElementById("cube");
+
+        function nextPerspective() {
+            currentFace = (currentFace + 1) % 6;
+            updateCube();
+        }
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('popupOverlay').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+
+        function zoomIntoFace(face, url) {
+            
+            face.style.transform = "translateZ(0) rotateX(0) rotateY(0)";
+
+            
+            face.style.animation = "zoomIn 1s ease-in-out forwards";
+
+           
+            setTimeout(() => {
+                if (url) {
+                    window.location.href = url;
+                }
+            }, 1000); 
+        }
+
+        function updateCube() {
+            let xRotation = 0;
+            let yRotation = 0;
+
+            switch (currentFace) {
+                case 0: yRotation = 0; break;
+                case 1: yRotation = 180; break;
+                case 2: yRotation = 90; break;
+                case 3: yRotation = -90; break;
+                case 4: xRotation = 90; break;
+                case 5: xRotation = -90; break;
+            }
+            cube.style.animation = "none";
+            cube.style.transform = `rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Adventurer: A Life of Exploration</title>
+    <script src="audio-manager.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+       
+        body {
+            background: linear-gradient(45deg, #000428, #004e92); 
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px white;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+      
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+            transform-origin: bottom;
+            animation: shoot 2s linear infinite;
+            top: calc(var(--top) * 100vh);
+            left: calc(var(--left) * 100vw);
+            transform: rotate(var(--angle)deg);
+            opacity: 1;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            bottom: 0;
+            left: -3px;
+            box-shadow: 0 0 5px white;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateY(0) rotate(var(--angle)deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(var(--height) * -100vh)) rotate(var(--angle)deg);
+                opacity: 0;
+            }
+        }
+
+        h1 {
+            margin-top: 100px;
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            font-family: 'Georgia', serif;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .frame {
+            border: 10px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            opacity: 0; 
+            transform: scale(0.8); 
+            animation: fadeInScale 1s ease-in-out forwards;
+        }
+
+        .frame.small-frame {
+            width: 180px; 
+            height: 240px; 
+        }
+
+        .frame.medium-frame {
+            width: 400px; 
+            height: 480px; 
+        }
+
+        .frame.large-frame {
+            width: 550px; 
+            height: 360px; 
+            margin-top: 10px;
+        }
+
+        .frame img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .frame:hover img {
+            transform: scale(1.1); 
+        }
+
+        .img-group {
+            width: 100%;
+            height: 100%;
+        }
+
+        .img-large {
+            width: 110%;
+            height: 110%;
+        }
+
+       
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .personality-reflection {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1200px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            margin-top: 20px;
+            font-size: 1.5em;
+            line-height: 1.8;
+            overflow: hidden;
+        }
+
+        .personality-reflection h2 {
+            font-size: 2.5em;
+            color: #3498db;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .personality-reflection p {
+            margin: 0;
+            opacity: 0;
+            animation: typing 5s steps(100, end) forwards;
+            overflow: hidden;
+            border-right: 2px solid #3498db;
+        }
+
+        .personality-reflection p:nth-child(2) {
+            animation-delay: 0s;
+        }
+
+        .personality-reflection p:nth-child(3) {
+            animation-delay: 5s;
+        }
+
+        .personality-reflection p:nth-child(4) {
+            animation-delay: 10s;
+        }
+
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: #3498db;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            opacity: 0.5; 
+            pointer-events: none; 
+        }
+
+        .back-button.active {
+            opacity: 1;
+            pointer-events: auto; 
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            transform: scale(1.1);
+        }
+
+      
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            margin-top: 20px;
+            display: none; 
+        }
+
+        .memory-card {
+            width: 100px;
+            height: 100px;
+            background: #3498db;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: limegreen;
+            pointer-events: none;
+        }
+
+        .memory-card .front-face,
+        .memory-card .back-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+        }
+
+        .memory-card .front-face {
+            background: #2980b9;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card .back-face {
+            background: #3498db;
+        }
+
+        .start-game-button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: #e67e22;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .start-game-button:hover {
+            background: #d35400;
+            transform: scale(1.1);
+        }
+
+        .sarcastic-message {
+            font-size: 1.2em;
+            color: #ffffff;
+            margin-top: 20px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .completion-message {
+            font-size: 1.5em;
+            color: #ffffff;
+            margin-top: 20px;
+            text-align: center;
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+    
+    <script>
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(star);
+        }
+    </script>
+
+    
+    <div class="shooting-star" style="--delay: 1; --top: 0.8; --left: 0.05; --angle: -10; --height: 1;"></div>
+    <div class="shooting-star" style="--delay: 3; --top: 0.6; --left: 0.95; --angle: 10; --height: 1.2;"></div>
+    <div class="shooting-star" style="--delay: 5; --top: 0.4; --left: 0.05; --angle: -5; --height: 0.8;"></div>
+    <div class="shooting-star" style="--delay: 7; --top: 0.2; --left: 0.95; --angle: 5; --height: 1.1;"></div>
+    <div class="shooting-star" style="--delay: 2; --top: 0.1; --left: 0.25; --angle: -30; --height: 1.3;"></div>
+    <div class="shooting-star" style="--delay: 4; --top: 0.9; --left: 0.75; --angle: 10; --height: 0.9;"></div>
+    <div class="shooting-star" style="--delay: 1.5; --top: 0.3; --left: 0.1; --angle: -25; --height: 0.7;"></div>
+    <div class="shooting-star" style="--delay: 6; --top: 0.7; --left: 0.8; --angle: 5; --height: 1.4;"></div>
+    <div class="shooting-star" style="--delay: 2.5; --top: 0.5; --left: 0.35; --angle: -15; --height: 1;"></div>
+    <div class="shooting-star" style="--delay: 4.5; --top: 0.15; --left: 0.6; --angle: 20; --height: 0.85;"></div>
+
+    <h1>The Adventurer: A Life of Exploration</h1>
+    <div class="container">
+        <div class="image-row">
+            <div class="frame medium-frame">
+                <img src="adventurer_1.jpeg" alt="Adventurer 1" class="img-group">
+            </div>
+            <div class="frame medium-frame">
+                <img src="adventurer_2.jpeg" alt="Adventurer 2" class="img-group">
+            </div>
+        </div>
+        <div class="frame large-frame">
+            <img src="adventurer_3.jpeg" alt="Adventurer 3" class="img-large">
+        </div>
+
+        <div class="personality-reflection">
+            <h2>Reflections on a Life being Lived to the Full Extent</h2>
+            <p>
+                Meet <strong>the Adventurer</strong>. Not just in the “backpacking across continents” way, though if the opportunity came up, she would probably pack in five minutes and figure everything else out on the way. Her adventures are not just about places but about experiences, like trying <strong>something completely new just because</strong> or proving once again that <strong>cinnamon belongs in everything</strong>. Seriously. If you think otherwise, she will respectfully disagree and then make you try it. And you will love it.<br><br>
+        
+                Her taste in movies? A whole adventure on its own. As a kid, she was all about <strong>Eat Pray Love</strong>, dreaming of life-changing trips, deep soul-searching, and let’s be honest, she was into it mostly for the pasta but who could blame her? Then came <strong>Divergent</strong>, where she saw herself as the fearless rebel, standing up for what is right and taking risks. These days, she is hooked on <strong>High Potential</strong>, because who does not love an underdog story. And let’s be real, she probably relates to those sharp, brilliant characters more than she admits.<br><br>
+        
+                Books? <strong>A recent constant in her world if she's not sleeping when she starts reading. Those natural melatonines are a killer.</strong> One of her favorites is <strong>You Are Special</strong> by Max Lucado. Eli, the wise old woodcarver, taught her that what others think does not define her. It is about knowing <strong>who you are</strong>. And let’s be honest, Eli’s face was probably just as memorable as the message.<br><br>
+        
+                But here is the thing. It is not just about what she loves. It is about <strong>how she approaches life</strong>. She is always <strong>open to something new</strong>, always up for a little chaos, always willing to <strong>say yes to the unexpected</strong>. Whether it is traveling, cooking, or deciding that today is the day to try something completely different, she is the kind of person who makes everything <strong>a little more exciting</strong>. And obviously, snacks. Always bring snacks.
+            </p>
+        </div>
+        
+
+      
+        <div class="sarcastic-message">
+            Oh, you thought you could just waltz back to your cube without a little adventure? Think again!<br>
+            Prove your adventurous spirit by matching the pairs below. Only then will the path to your cube reveal itself. Good luck, explorer!
+        </div>
+
+        <button class="start-game-button">Start Game</button>
+
+       
+        <div class="memory-game">
+            
+        </div>
+
+        
+        <div class="completion-message">
+            🌟 You matched all the pairs! The path to your cube is now revealed. 🌟<br>
+            Click the button below to return to your cube.
+        </div>
+
+        <button id="backButton" class="back-button">Back to Cube</button>
+    </div>
+
+    <script>
+      
+        const memoryGame = document.querySelector('.memory-game');
+        const startGameButton = document.querySelector('.start-game-button');
+        const backButton = document.getElementById('backButton');
+        const completionMessage = document.querySelector('.completion-message');
+        const cards = [
+            "Moosem tazaweg el daraphil",
+            "Moosem tazaweg el daraphil",
+            "Makook fada2y",
+            "Makook fada2y",
+            "5 x 5",
+            "5 x 5",
+            "fatfouta",
+            "fatfouta"
+        ];
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+        let matchedPairs = 0;
+
+        cards.sort(() => Math.random() - 0.5);
+
+        startGameButton.addEventListener('click', () => {
+            memoryGame.style.display = 'grid';
+            startGameButton.style.display = 'none';
+
+            cards.forEach((text, index) => {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+                card.innerHTML = `
+                    <div class="front-face">${text}</div>
+                    <div class="back-face"></div>
+                `;
+                card.dataset.framework = text;
+                card.addEventListener('click', flipCard);
+                memoryGame.appendChild(card);
+            });
+        });
+
+        function flipCard() {
+            if (lockBoard || this === firstCard || this.classList.contains('matched')) return;
+            this.classList.add('flipped');
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+            } else {
+                secondCard = this;
+                checkForMatch();
+            }
+        }
+
+        function checkForMatch() {
+            const isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+            if (isMatch) {
+                firstCard.classList.add('matched');
+                secondCard.classList.add('matched');
+                matchedPairs++;
+                if (matchedPairs === cards.length / 2) {
+                    completionMessage.style.display = 'block'; 
+                    backButton.classList.add('active'); 
+                }
+                resetBoard();
+            } else {
+                lockBoard = true;
+                setTimeout(() => {
+                    firstCard.classList.remove('flipped');
+                    secondCard.classList.remove('flipped');
+                    resetBoard();
+                }, 1000);
+            }
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        backButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            window.location.href = 'cube.html';
+        });
+    </script>
+</body>
+</html>

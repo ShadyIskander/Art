@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Family Glue: The Heart of the Home</title>
+    <script src="audio-manager.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+       
+        body {
+            background: linear-gradient(to bottom right, #f0f8ff, #e0ffff);
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            margin-top: 100px;
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #2b6be1;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            font-family: 'Georgia', serif;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            z-index: 1; 
+        }
+
+        
+        .picture-layout {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 50px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            transform: translateY(500px); 
+        }
+
+        .picture-layout .frame {
+            border: 10px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            height: 300px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            position: absolute; 
+            opacity: 0;
+            animation: fadeInFrame 1s ease-in-out forwards;
+        }
+
+        .picture-layout .frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        
+        .picture-layout .frame:nth-child(1) { transform: translate(0, -400px); animation-delay: 1s; }
+        .picture-layout .frame:nth-child(2) { transform: translate(600px, -225px); animation-delay: 2s; }
+        .picture-layout .frame:nth-child(3) { transform: translate(600px, 325px); animation-delay: 3s; }
+        .picture-layout .frame:nth-child(4) { transform: translate(0, 700px); animation-delay: 4s; }
+        .picture-layout .frame:nth-child(5) { transform: translate(-600px, 325px); animation-delay: 5s; }
+        .picture-layout .frame:nth-child(6) { transform: translate(-600px, -225px); animation-delay: 6s; }
+
+        @keyframes fadeInFrame {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        
+        .text-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 700px; 
+            height: 590px; 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            margin-top: 2px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            overflow: auto; 
+            position: relative;
+            z-index: 2;
+            top: 250px; 
+        }
+
+        .text-container h2 {
+            font-size: 2em;
+            color: #2b6be1;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .text-container p {
+            margin: 0;
+            opacity: 0;
+            animation: typing 5s steps(100, end) forwards;
+            overflow: hidden;
+            border-right: 2px solid #2b6be1;
+            white-space: normal; 
+        }
+
+        .text-container p:nth-child(2) { animation-delay: 0s; }
+        .text-container p:nth-child(3) { animation-delay: 5s; }
+        .text-container p:nth-child(4) { animation-delay: 10s; }
+
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        
+        .back-button {
+            padding: 14px 28px;
+            background: #2b6be1;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            position: fixed; 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 3; 
+            opacity: 0; 
+            visibility: hidden; 
+        }
+
+        .back-button.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-button:hover {
+            background: #4a6391;
+            transform: translateX(-50%) scale(1.1); 
+        }
+    </style>
+</head>
+<body>
+    <h1>The Family Glue: The Heart of the Home</h1>
+    <div class="container">
+        <div class="picture-layout">
+            <div class="frame">
+                <img src="family_1.jpeg" alt="Tia with Rana">
+            </div>
+            <div class="frame">
+                <img src="family_2.jpeg" alt="Tia with Joe">
+            </div>
+            <div class="frame">
+                <img src="family_3.jpeg" alt="Tia with Timo">
+            </div>
+            <div class="frame">
+                <img src="family_4.jpeg" alt="Tia with Dodo">
+            </div>
+            <div class="frame">
+                <img src="family_5.jpeg" alt="Tia with her mother">
+            </div>
+            <div class="frame">
+                <img src="family_6.jpeg" alt="Tia with the whole family">
+            </div>
+        </div>
+
+        
+        <div class="text-container">
+            <h2>The Force of Flavor in the Sourial's Household</h2>
+            <p>
+                <strong>Before anything else</strong>, Tia is a child of God. Her identity is rooted in <strong>His love</strong>, and everything she does flows from that truth.  
+                She walks in faith, knowing she is seen, known, and cherished by <strong>her Heavenly Father</strong>.  
+                In every season, she trusts <strong>His wisdom</strong> and finds peace in <strong>His presence</strong>.  
+                She lives as a reflection of <strong>God’s goodness</strong>, bringing light, love, and grace to those around her.  
+            </p>
+            <p>
+                Tia's kitchen is her canvas, and spices are her paint. She doesn't just cook; she orchestrates flavor symphonies that leave you wondering if you've accidentally stumbled into a five-star restaurant. Between Me and you, I think that's the real glue that holds the family together but Shhhh, don't tell anyone. 👀🫢🫢 Her <strong>fearless experimentation</strong> with ingredients is legendary, and her ability to turn kitchen mishaps into culinary triumphs is nothing short of magical. <strong>Fire? A mere suggestion</strong>. She approaches life, and cooking, with a bold, "why not?" attitude that's both inspiring and slightly terrifying.
+            </p>
+            <p>
+                Even though <strong>Rana</strong> lives miles away in Canada, Tia's connection with her is as strong as ever. Their Wednesday night calls are a testament to Tia's unwavering commitment to family, even if they do disrupt her carefully planned evenings. And let’s be honest, Tia would never let a Thursday night call happen, too normal. Their relationship isn't just about sisterhood, it's much more. It's as if you are talking to the same person, yet they are so complementary to each other which might confuse you. Trust me, I tried doing the calculation, and it is something extraordinary to the point that one might even say it's the work of the Holy Spirit. As for <strong>Joe</strong>, or JoJo as she calls him, he isn't just a brother-in-law; he's her career confidant. His knack for logistics and strategic thinking has been instrumental in helping Tia navigate her professional path. She values his input immensely, seeing him as a trusted advisor who understands her ambitious spirit. Their conversations can shift from the latest TV shows to next steps in her career in a matter of seconds.  
+                Together, Rana and Joe are also the ones she shares <strong>spontaneous</strong> <strong> road</strong></strong> trips</strong> with turning everyday moments into unforgettable adventures.
+            </p>
+            <p>
+                <strong>Timo</strong>, her older brother, is her </strong>life</strong></strong>saver</strong> for university stuff, the </strong>first</strong> call whenever something goes off-track, the </strong>voice</strong> </strong>of</strong>  </strong>reason</strong> in late-night crisis moments, and the source of </strong>quality</strong> </strong>time</strong> that truly matters in </strong>life</strong>. Whether it's figuring out coursework, making sense of deadlines, or just offering a safe space to vent, Timo has always been there.  
+                <strong>Her mother</strong>, the epitome of grace and kindness, has instilled in Tia a deep sense of empathy and compassion. Tia's ability to connect with people on a genuine level is a reflection of her mother's influence. And <strong>Dodo</strong>, her spiritual guide, has given her a foundation of wisdom and strength. Through him, Tia has learned to approach life with a sense of purpose and a deep understanding of her own values. She believes that her life is a gift from God, and she just sees a different perspective because of him. He has taught her that in the midst of the storn, you can pray and you can be at a level of peace that you can take a nap. She uses these values to guide her life and the life of the individuals around her.
+                Tia isn't just a presence in the family; she's the <strong>spark</strong> that keeps everything <strong>vibrant</strong>. 
+                Whether it's lifting spirits with her <strong>humor</strong>, bringing people together over a <strong>meal</strong>, 
+                or offering a <strong>fresh perspective</strong> on life's challenges, she has a way of making everything feel <strong>possible</strong>. 
+                Her <strong>boundless energy</strong>, <strong>relentless ambition</strong>, and <strong>deep love</strong> for those around her 
+                make her a <strong>force to be reckoned with</strong>. Simply put, Tia doesn't just <strong>exist</strong>; 
+                she <strong>turns the spirit in your house into a comfortable home</strong>.
+            </p>
+        </div>
+
+       
+        <button class="back-button" onclick="window.location.href='final.html'">Onwards to the Final Celebration!</button>
+    </div>
+
+    <script>
+        
+
+        function celebrate() {
+    // Confetti effect
+    confetti(/* ... */);
+    setTimeout(() => {
+        document.getElementById('birthday-sequence').style.display = 'block';
+        document.getElementById('happy-20th').textContent = 'Happy 20th!';
+        // Animation for "Happy 20th"
+    }, 2000);
+}
+
+function blowCandles() {
+    // Candle blowing animation (smoke, etc.)
+    // Sound effect
+    // Sparkle effect
+}
+        setTimeout(() => {
+            document.querySelector('.back-button').classList.add('visible');
+        }, 15000); 
+    </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! Explore Your Dimensions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #cce0e5, #b2dfdb, #80cbc4);
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-size: 200% 200%;
+            animation: backgroundSlide 10s ease infinite alternate;
+        }
+
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-in-out, glow 3s ease-in-out infinite alternate;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
+            100% { text-shadow: 2px 2px 8px rgba(0, 128, 128, 0.3); }
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #34495e;
+            margin-bottom: 35px;
+            animation: fadeIn 2.5s ease-in-out;
+            font-weight: 300;
+        }
+
+        #start-button {
+            padding: 18px 35px;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #3498db, #9b59b6, #e74c3c);
+            color: #fff;
+            border: none;
+            border-radius: 35px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 25px rgba(52, 152, 219, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #start-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(52, 152, 219, 0.8);
+        }
+
+        
+
+        @keyframes flyAndLand {
+            0% { left: -200px; transform: translateY(0) rotate(0deg); }
+            50% { left: 50%; transform: translateY(0) rotate(10deg); }
+            100% { left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(0deg); }
+        }
+
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: float linear infinite;
+        }
+
+        .cloud1 { top: 10%; left: -200px; width: 150px; height: 60px; animation-duration: 20s; }
+        .cloud2 { top: 30%; right: -200px; width: 200px; height: 80px; animation-duration: 25s; }
+        .cloud3 { top: 50%; left: -200px; width: 180px; height: 70px; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.3; }
+        }
+
+        
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+            border-radius: 1px;
+            animation: shoot 5s linear infinite;
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(-200px) rotate(-45deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(200vw) rotate(-45deg); opacity: 0; }
+        }
+
+        .balloons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: #ff6f61;
+            border-radius: 50%;
+            animation: floatBalloon 6s ease-in-out infinite;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 2px;
+            height: 50px;
+            background: #333;
+            transform: translateX(-50%);
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        .balloon1 { top: 6%; left: 10%; animation-duration: 5s; }
+        .balloon2 { top: 8%; left: 30%; animation-duration: 7s; }
+        .balloon3 { top: 6%; left: 50%; animation-duration: 6s; }
+        .balloon4 { top: 8%; left: 80%; animation-duration: 8s; }
+        .balloon5 { top: 50%; left: 10%; animation-duration: 8s; }
+        .balloon6 { top: 50%; left: 80%; animation-duration: 8s; }
+        .balloon7 { top: 80%; left: 10%; animation-duration: 8s; }
+        .balloon8 { top: 80%; left: 80%; animation-duration: 8s; }
+    
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clouds">
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            <div class="cloud cloud3"></div>
+        </div>
+
+
+        <div class="stars">
+            <div class="star" style="top: 10%; left: 20%;"></div>
+            <div class="star" style="top: 30%; left: 50%;"></div>
+            <div class="star" style="top: 50%; left: 70%;"></div>
+            <div class="star" style="top: 70%; left: 10%;"></div>
+            <div class="star" style="top: 90%; left: 40%;"></div>
+        </div>
+
+        <div class="shooting-star" style="top: 15%; left: 10%;"></div>
+        <div class="shooting-star" style="top: 45%; left: 30%;"></div>
+        <div class="shooting-star" style="top: 75%; left: 50%;"></div>
+
+        <div class="balloons">
+            <div class="balloon balloon1"></div>
+            <div class="balloon balloon2"></div>
+            <div class="balloon balloon3"></div>
+            <div class="balloon balloon4"></div>
+            <div class="balloon balloon5"></div>
+            <div class="balloon balloon6"></div>
+            <div class="balloon balloon7"></div>
+            <div class="balloon balloon8"></div>
+        
+        </div>
+
+        <div class="content">
+            <h1>Happy Birthday, Tee! 🎉</h1>
+            <p class="subtitle">Prepare yourself, Tee. You've stumbled upon a digital labyrinth designed to unveil the hidden facets of your magnificent self. Your quest, should you dare to embark, awaits...</p>
+            <button id="start-button">Dare to Begin?</button>
+        </div>
+    </div>
+
+    <script>
+        
+        document.getElementById('start-button').addEventListener('click', () => {
+           
+            window.location.href = 'cube.html';
+        });
+    </script>
+</body>
+</html>

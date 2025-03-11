@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="audio-manager.js"></script>
+    <title>The Artist - Tia's Dimensions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(270deg, #a8e6cf, #b2dfdb, #80cbc4, #4db6ac);
+            background-size: 400% 400%;
+            color: #000000;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            animation: backgroundSlide 10s infinite linear;
+        }
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        h1 {
+            margin-top: 50px;
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #000000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            font-family: 'Georgia', serif;
+            text-align: center; 
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .image-row .frame:nth-child(2) {
+            margin-top: 100px; 
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .frame {
+            border: 10px solid rgba(0, 77, 64, 0.8);
+            border-radius: 20px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .frame img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+        }
+        .frame:first-child img {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 1.5s ease-in-out forwards;
+    animation-delay: 0.5s; 
+}
+
+
+.frame:nth-child(2) img {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 1.5s ease-in-out forwards;
+    animation-delay: 1s; 
+}
+
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+        .frame:nth-child(2) {
+            height: 300px;
+            margin-top: 30px; 
+        }
+        .personality-reflection {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 1000px; 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            margin-top: 20px;
+            font-size: 1.3em; 
+            line-height: 1.8; 
+            overflow: hidden; 
+        }
+        .personality-reflection h2 {
+            font-size: 2em;
+            color: #004D40;
+            margin-bottom: 10px;
+            text-align: center; 
+        }
+        .personality-reflection p {
+            margin: 0;
+            opacity: 0; 
+            animation: typing 5s steps(100, end) forwards;
+            overflow: hidden; 
+            border-right: 2px solid #004D40; 
+        }
+        .personality-reflection p:nth-child(2) {
+            animation-delay: 0s; 
+        }
+        .personality-reflection p:nth-child(3) {
+            animation-delay: 5s; 
+        }
+        .personality-reflection p:nth-child(4) {
+            animation-delay: 10s; 
+        }
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #004D40; }
+        }
+        .mission {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 600px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .mission h2 {
+            font-size: 1.8em;
+            color: #004D40;
+            margin-bottom: 10px;
+        }      
+        .mission p {
+            font-size: 1.1em;
+            color: #000000;
+        }
+        .mission button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #004D40;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .mission button:hover {
+            background: #40E0D0;
+        }
+        .hidden {
+            display: none;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: #074a43;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .back-button:hover {
+            background: linear-gradient(135deg, #004D40, #40E0D0);
+            transform: scale(1.1);
+        }
+        .car-drawing {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            margin-top: 20px;
+        }
+        .car-drawing::before {
+            content: "🚗💨";
+            position: absolute;
+            font-size: 40px;
+            animation: drift 3s linear forwards;
+        }
+        input[type="text"] {
+    display: block; 
+    margin: 10px auto; 
+    text-align: center; 
+}
+@keyframes drift {
+    0% { right: 0; opacity: 0; transform: rotate(0deg) translateY(0); }
+    25% { transform: rotate(-20deg) translateY(30px); } 
+    50% { opacity: 1; transform: rotate(45deg) translateY(60px); } 
+    75% { transform: rotate(20deg) translateY(30px);} 
+    100% { right: 80%; opacity: 0; transform: rotate(0deg) translateY(0); }
+}
+        
+        #swirlCanvas {
+    width: 600px; 
+    height: 300px; 
+}
+        .swirled-text {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>The Artist: The Creative and majestic Touch</h1>
+    <div class="container">
+        <div class="image-row">
+            <div class="frame">
+                <img src="tia-certificate.jpeg" alt="Tia holding a certificate">
+            </div>
+
+           
+            <div class="frame">
+                <img src="corona-chocolate.jpeg" alt="Corona Chocolate Rebrand Project">
+            </div>
+        </div>
+
+      
+        <div class="personality-reflection">
+            <h2>Reflection on Tia's Personality</h2>
+            <p>
+                Tia’s Corona Chocolate Rebrand project is a testament to her <strong>creative genius</strong> and <strong>attention to detail</strong>. By transforming an outdated product into an interactive storytelling experience, she demonstrates her ability to think outside the box and breathe new life into traditional concepts. Her hand-drawn illustrations and use of mixed media highlight her <strong>artistic versatility</strong> and passion for blending the old with the new.
+            </p>
+            <p>
+                The interactive nature of the packaging which requires users to cut through zigzag lines to uncover the story reflects her <strong>playful curiosity</strong> and desire to engage others in a meaningful way. Tia doesn’t just create; she invites people to participate, making her work both personal and memorable. This project also showcases her <strong>dedication to storytelling</strong>, as she uses minimal text to convey a rich narrative, proving that she understands the power of visuals and design.
+            </p>
+            <p>
+                Above all, Tia’s approach to this project reveals her <strong>fearless experimentation</strong> and willingness to explore new techniques. Whether it’s hand-drawing illustrations, scanning them, or combining traditional and digital methods, she embraces challenges with enthusiasm and a sense of adventure. This project is a perfect reflection of Tia as an artist: imaginative, thoughtful, and always pushing boundaries.
+            </p>
+        </div>
+
+        <div class="mission">
+            <h2>Mission 1: Screeching Wheels, Hidden Words</h2>
+            <p>
+                Oh, you thought you were off the hook? Think again! A car's gone rogue, and it's using its tires to write you a word. Click below, to solve and get back to your cube and try not to get dizzy.
+            </p>
+            <button id="startButton" onclick="startMission()">Start Mission 1</button>
+            <div id="car-drawing" class="car-drawing hidden"></div>
+            <canvas id="swirlCanvas" class="hidden"></canvas>
+            <div id="swirling-text" class="swirled-text hidden">
+                <span>D</span><span>r</span><span>i</span><span>v</span><span>e</span><span>n</span>
+            </div>
+            <input type="text" id="answer" placeholder="Type your answer here" class="hidden">
+            <button onclick="checkAnswer()" class="hidden">Submit</button>
+            <p id="feedback" class="hidden"></p>
+        </div>
+
+        <button id="backButton" class="back-button hidden" onclick="window.location.href='cube.html'">Back to Cube</button>
+    </div>
+
+    <script>
+        function startMission() {
+            const startButton = document.getElementById('startButton');
+            const carDrawing = document.getElementById('car-drawing');
+            const swirlCanvas = document.getElementById('swirlCanvas');
+            const answerInput = document.getElementById('answer');
+            const submitButton = document.querySelector('.mission button:nth-of-type(2)');
+
+            startButton.style.display = 'none'; 
+
+            carDrawing.classList.remove('hidden');
+            swirlCanvas.classList.remove('hidden');
+
+            setTimeout(() => {
+                drawSwirledText();
+                answerInput.classList.remove('hidden');
+                submitButton.classList.remove('hidden');
+            }, 1000); // 1 second lag
+        }
+
+        function drawSwirledText() {
+    const canvas = document.getElementById('swirlCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#004D40';
+    ctx.font = '50px Georgia';
+    
+    const text = 'DRIVEN';
+    const centerX = canvas.width / 4;
+    const centerY = canvas.height * 3 / 4;
+    const radius = 15; 
+    let angle = Math.PI / 6; 
+    let xOffset = 0;
+    let yOffset = 0;
+
+    function drawCharacter(index) {
+        if (index < text.length) {
+            const char = text[index];
+
+            
+            const x = centerX + radius * index * Math.cos(angle) + xOffset;
+            const y = centerY - radius * index * Math.sin(angle) + yOffset;
+            const rotation = (Math.random() * 0.8 - 0.4); 
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+            ctx.fillText(char, 0, 0);
+            ctx.restore();
+
+            xOffset += Math.random() * 15 - 7.5; 
+            yOffset += Math.random() * 10 - 5; 
+            
+            setTimeout(() => drawCharacter(index + 1), 80); 
+        }
+    }
+    drawCharacter(0);
+}
+
+    function checkAnswer() {
+    const answer = document.getElementById('answer').value.toLowerCase();
+    const feedback = document.getElementById('feedback');
+    const backButton = document.getElementById('backButton');
+
+    const correctAnswer = "driven";
+
+    if (answer === correctAnswer) {
+        feedback.innerHTML = "<span style='font-size: 1.5em;'>Correct! You've cracked the code! You may go back to the cube now</span>";
+        feedback.style.color = "#004D40";
+        feedback.classList.remove('hidden');
+
+        
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        setTimeout(() => backButton.classList.remove('hidden'), 100); 
+    } else {
+        feedback.textContent = "Oops! Try again.";
+        feedback.style.color = "#FF0000";
+        feedback.classList.remove('hidden');
+    }
+}
+</script>
+<style>
+
+</style>
+        
+</body>
+</html>
+           

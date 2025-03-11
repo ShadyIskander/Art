@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Servant: A Voice for Glory</title>
+    <script src="audio-manager.js"></script>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+        
+        body {
+            background: linear-gradient(270deg, #f4d03f, #f5b041, #e67e22, #d35400);
+            background-size: 400% 400%;
+            color: #000000;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            animation: backgroundSlide 10s infinite linear;
+        }
+
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            margin-top: 100px;
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #000000;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            font-family: 'Georgia', serif;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .frame {
+            border: 10px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        
+        .frame:first-child {
+            width: 500px;
+            height: 300px;
+        }
+
+
+        .frame:first-child img {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 1.5s ease-in-out forwards;
+    animation-delay: 0.5s; 
+}
+
+
+.frame:nth-child(2) img {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 1.5s ease-in-out forwards;
+    animation-delay: 1s; 
+}
+
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+       
+        .frame:last-child {
+            width: 200px;
+            height: 350px;
+        }
+
+        .frame img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .personality-reflection {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1200px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            margin-top: 20px;
+            font-size: 1.5em;
+            line-height: 1.8;
+            overflow: hidden;
+        }
+
+        .personality-reflection h2 {
+            font-size: 2.5em;
+            color: #d35400;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .personality-reflection p {
+            margin: 0;
+            opacity: 0;
+            animation: typing 5s steps(100, end) forwards;
+            overflow: hidden;
+            border-right: 2px solid #d35400;
+        }
+
+        .personality-reflection p:nth-child(2) {
+            animation-delay: 0s;
+        }
+
+        .personality-reflection p:nth-child(3) {
+            animation-delay: 5s;
+        }
+
+        .personality-reflection p:nth-child(4) {
+            animation-delay: 10s;
+        }
+
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #d35400; }
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: #d35400;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            transform: scale(1.1);
+        }
+
+        
+        #raccoonSection {
+            display: none; 
+            position: fixed;
+            top: 50%;
+            right: -500px; 
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 400px;
+            animation: slideIn 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                right: 20px; 
+            }
+        }
+
+        #raccoonSection img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #raccoonSection h2 {
+            font-size: 2em;
+            color: #d35400;
+            margin-bottom: 20px;
+        }
+
+        #raccoonSection button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #d35400;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        #raccoonSection button:hover {
+            background: #e67e22;
+        }
+
+        
+        #dismissedMessage {
+            display: none; 
+            position: fixed;
+            top: 20px; 
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em; 
+            color: #d35400;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <h1>The Servant: A Voice for Glory</h1>
+    <div class="container">
+        
+        <div class="image-row">
+            <div class="frame">
+                <img src="Sat7_tia.png" alt="The Servant live on TV">
+            </div>
+            <div class="frame">
+                <img src="Tia_speakers.jpeg" alt="The Servant wearing a speaker">
+            </div>
+        </div>
+
+        
+        <div class="personality-reflection">
+            <h2>Reflection on The Servant's Journey</h2>
+            <p>
+                The Servant possesses a voice that could easily have made her a <strong>professional singer</strong>, captivating audiences worldwide. Yet, she chose to dedicate this <strong>extraordinary gift</strong> to the glory of God, using it to <strong>inspire and uplift</strong> others. Her voice is not just a talent; it’s a <strong>vessel for divine purpose</strong>, resonating with <strong>faith and devotion</strong>.<br><br>
+                Her work with <strong>SAT7 Kids</strong> is a testament to her commitment to serving others. Through her role, she brings <strong>joy, hope, and spiritual guidance</strong> to countless children, helping them grow in their faith. Whether she’s <strong>live on TV</strong> or wearing a speaker to amplify her message, her presence is a <strong>beacon of light and love</strong>.<br><br>
+                Beyond her work with SAT7 Kids, The Servant's dedication extends to her local church, where she leads worship with a <strong>heart of genuine praise</strong>. Her voice, though capable of reaching vast audiences, remains grounded in a profound sense of <strong>humility</strong>. She understands that her talent is a gift, and she uses it to draw others closer to God, not to elevate herself. Her approach to worship is marked by a <strong>deep reverence</strong> and a sincere desire to create an atmosphere where others can encounter the <strong>presence of the divine</strong>.<br><br>
+                Furthermore, The Servant's commitment to spiritual growth is evident in her leadership of a <strong>discipleship group</strong>. She pours her heart into mentoring young women, guiding them in their faith journey. Her <strong>care</strong> is both tender and steadfast, creating a <strong>safe space</strong> for these girls to share their struggles and triumphs. She listens with empathy, offers <strong>wise counsel</strong>, and encourages them to grow in their relationship with God. Her dedication to their <strong>spiritual development</strong> is a reflection of her own <strong>unwavering faith</strong> and her genuine desire to see others flourish. She models a life of <strong>service and selflessness</strong>, embodying the very essence of discipleship.<br><br>
+                The Servant’s life is a <strong>beautiful example</strong> of dedication, humility, and unwavering devotion to God’s calling. She reminds us that <strong>true greatness</strong> lies in using our gifts to serve a <strong>higher purpose</strong>, touching lives in ways that transcend the ordinary. Her story is one of <strong>faith, humility, and selfless service</strong>, inspiring us all to live a life that glorifies God.
+            </p>
+        </div>
+       
+        <button id="backButton" class="back-button">Back to Cube</button>
+
+       
+        <div id="dismissedMessage">
+            Sanker's gone bye-bye! 🎉 <br>
+            Phew! We dodged a fox-sized bullet!<br>
+            Hit the "Back to Cube" button at the bottom and let's pretend this never happened. 😉
+        </div>
+    </div>
+
+    <div id="raccoonSection">
+        <h2>Alert! سنكر is attempting a digital takeover!</h2>
+        <img src="Sanker.png" alt="Sanker the Raccoon">
+        <button onclick="playWorshipSong()">Play your favorite worship song to Dismiss Sanker</button>
+    </div>
+
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('raccoonSection').style.display = 'block'; 
+        });
+
+        
+        function playWorshipSong() {
+    const audio = window.getGlobalAudio();
+    audio.play();
+
+    
+    document.getElementById('raccoonSection').style.display = 'none';
+
+   
+    document.getElementById('dismissedMessage').style.display = 'block';
+
+    
+    document.getElementById('backButton').onclick = function() {
+        window.location.href = 'cube.html'; 
+    };
+}
+    </script>
+</body>
+</html>

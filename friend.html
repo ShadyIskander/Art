@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tia: Through a Friend's Eyes</title>
+    <script src="audio-manager.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+        
+        body {
+            background: linear-gradient(135deg, #fceabb, #f8b500, #f0e68c, #e6e6fa);
+            background-size: 400% 400%;
+            color: #4a4a4a;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            animation: backgroundSlide 10s infinite linear;
+        }
+
+        @keyframes backgroundSlide {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            margin-top: 100px;
+            font-size: 3em;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #136c98;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            font-family: 'Lora', serif;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .image-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .frame {
+            border: 10px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px;
+            height: 250px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 1s ease forwards;
+        }
+
+        .frame:nth-child(1) { animation-delay: 0.5s; }
+        .frame:nth-child(2) { animation-delay: 1s; }
+        .frame:nth-child(3) { animation-delay: 1.5s; }
+        .frame:nth-child(4) { animation-delay: 2s; }
+        .frame:nth-child(5) { animation-delay: 2.5s; }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .friend-reflection {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1200px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            margin-top: 20px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInText 2s ease forwards;
+            animation-delay: 3s;
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        .friend-reflection h2 {
+            font-size: 2.5em;
+            color: #136c98;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .friend-reflection p {
+            margin: 0;
+            opacity: 0;
+            animation: typing 5s steps(100, end) forwards;
+            overflow: hidden;
+            border-right: 2px solid #136c98;
+        }
+
+        .friend-reflection strong {
+            font-weight: bold;
+            color: #136c98; 
+        }
+
+        .friend-reflection p:nth-child(2) { animation-delay: 3s; }
+        .friend-reflection p:nth-child(3) { animation-delay: 8s; }
+        .friend-reflection p:nth-child(4) { animation-delay: 13s; }
+        .friend-reflection p:nth-child(5) { animation-delay: 18s; }
+        .friend-reflection p:nth-child(6) { animation-delay: 23s; }
+
+        @keyframes typing {
+            from { width: 0; opacity: 1; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            background: #26a69a;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #26a69a, #4dd0e1);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Tia: Through a Friend's Eyes</h1>
+    <div class="container">
+        <div class="image-row">
+            <div class="frame"><img src="friend_1.jpeg" alt="Tia with Friend 1"></div>
+            <div class="frame"><img src="friend_2.jpeg" alt="Tia with Friend 2"></div>
+            <div class="frame"><img src="friend_3.jpeg" alt="Tia with Friend 3"></div>
+            <div class="frame"><img src="friend_4.jpeg" alt="Tia with Friend 4"></div>
+            <div class="frame"><img src="friend_5.jpeg" alt="Tia with Friend 5"></div>
+        </div>
+
+        <div class="friend-reflection">
+            <h2>Tia: The Human Sunshine and Snack Dispenser</h2>
+            <p id="text-1"></p>
+            <p id="text-2"></p>
+            <p id="text-3"></p>
+            <p id="text-4"></p>
+            <p id="text-5"></p>
+        </div>
+
+        <button class="back-button" onclick="window.location.href='cube.html'">Back to Cube</button>
+    </div>
+
+    <script>
+        const text1 = `Let's be real, being friends with Tia is less "friendship" and more like having a <strong>24/7 personal cheerleader</strong> and <strong>emotional sponge</strong>. If you're feeling even slightly off, prepare for Tia to swoop in like a social-mood-detecting bat. She'll abandon the lively conversation to sit with you, probably while offering you a freshly baked cookie and a therapy session disguised as small talk. Because, you know, she cares. Or maybe she just can't stand the thought of anyone not being perfectly content. Either way, you win.`;
+        const text2 = `Her dedication to well-being extends beyond mere chit-chat. Forget "passion," Tia has a calling to ensure everyone is <strong>well-fed</strong> and <strong>emotionally stable</strong>. If you haven't been offered at least three different types of snacks and a heartfelt compliment within ten minutes of being around her, you're doing something wrong. Honestly, I suspect she has a secret stash of baked goods and positive affirmations surgically implanted somewhere.`;
+        const text3 = `And don't even get me started on her celebration skills. You think you celebrate your friends' successes? Please. Tia attends tennis matches in the middle of nowhere, while buried under her own work, just to scream your name so you feel that you are being supported. She's basically a <strong>professional hype-person</strong> with a side hustle in conquering geographic inconvenience. Nothing is too far or too inconvenient, she's always present with her fun personality to make your day brighter.`;
+        const text4 = `Her check-ins are legendary. You’ll get texts, calls, maybe even a carrier pigeon delivering a <strong>“how are youuuuuu?”</strong> note. And somehow, she manages to do it all with the carefree ease of someone who's never had a single worry in their life. Everything is <strong>"no problem,"</strong> <strong>"easy peasy,"</strong> and <strong>"oh, it was nothing!"</strong> even when she's clearly moved mountains to make your day better.`;
+        const text5 = `Seriously, I’ve never met anyone who's met Tia and thought, <strong>"Yeah, she's alright."</strong> It's more like, <strong>"Is she a real person or a highly advanced robot programmed to spread joy?"</strong> She’s the kind of friend who makes you wonder if you accidentally signed up for a lifetime supply of sunshine and baked goods. And honestly? I'm not complaining.`;
+
+        const textElements = [
+            { id: "text-1", text: text1 },
+            { id: "text-2", text: text2 },
+            { id: "text-3", text: text3 },
+            { id: "text-4", text: text4 },
+            { id: "text-5", text: text5 },
+        ];
+
+        function typeWriter(elementId, text, delay) {
+            const element = document.getElementById(elementId);
+            let index = 0;
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    if (index < text.length) {
+                        element.innerHTML = text.slice(0, index + 1); 
+                        index++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 20); 
+            }, delay);
+        }
+
+
+        textElements.forEach((item, index) => {
+            typeWriter(item.id, item.text, index * 5000); 
+        });
+    </script>
+</body>
+</html>
